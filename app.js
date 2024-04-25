@@ -1,3 +1,3 @@
-import {reemplazarTexto} from "./js/display.js"
+import {calculadora} from "./js/display.js"
 
-reemplazarTexto()
+calculadora()

@@ -62,7 +62,7 @@ export function buttonDetector(callback) { //callback es una forma de una funcio
                     callback(')');
                     break;
                 case 'C': 
-                    callback('');
+                    callback('c');
                     break;
                 case '+': 
                     callback('+');
@@ -89,10 +89,8 @@ export function buttonDetector(callback) { //callback es una forma de una funcio
                     callback('√');
                     break;
                 case 'xy': 
-                    callback('x^y');
+                    callback('^');
                     break;
-                default:
-                    callback(null); // En caso de no coincidir con ninguno
             }
         });
     });
