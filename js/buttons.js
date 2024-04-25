@@ -89,7 +89,7 @@ export function buttonDetector(callback) { //callback es una forma de una funcio
                     callback('√');
                     break;
                 case 'xy': 
-                    callback('^');
+                    callback('**');
                     break;
             }
         });
