@@ -1,6 +1,6 @@
 import { buttonDetector } from "./buttons.js";
 
-const textoMostrado = document.querySelector('p')
+const textoMostrado = document.querySelectorAll('p')
 let calculo = '0'
 let calculoSCT = ''
 let tipo = 'decimal'
@@ -13,8 +13,11 @@ export function calculadora(value) {
     if (valueS != 'c') {
         if ((value === 'bin' || value === 'oct' || value === 'hex' || value === 'dec')) {
             let calculoDec = Number(calculo)
-            calculo = convertirNumeros(value, calculoDec) 
-            textoMostrado.textContent = calculo
+            console.log(calculo)
+            console.log(calculoDec)
+            calculo = convertirNumeros(value, calculoDec, calculo) 
+            textoMostrado[0].textContent = tipo
+            textoMostrado[1].textContent = calculo
         }else if (value != undefined) {
             if (value === '+' || value === '-' || value === '*' || value === '/' || value === 'Sen' || value === 'Cos' || value === 'Tan' || value === '=' || value === '**') {
                 if (calculo.includes('+') || calculo.includes('*') || calculo.includes('-') || calculo.includes('/') || calculo.includes('Sen') || calculo.includes('Cos') || calculo.includes('Tan') || calculo.includes('√') || calculo.includes('**')){
@@ -26,11 +29,16 @@ export function calculadora(value) {
                         }
                         calculo= String(calculo)
                     } else if ( calculo.includes('Sen') || calculo.includes('Cos') || calculo.includes('Tan')) {
+                      console.log(calculoSCT)
+                      try {
                         calculo = eval(calculoSCT)
-                        calculo = String(calculo)
+                      } catch (error) {
+                        calculo = 'syntaxError'
+                      }
+                      calculo = String(calculo)
                     } else if (calculo.includes('√')){
-                        let raiz= sqrt(calculo)
-                        calculo= eval(raiz)
+                      let raiz= sqrt(calculo)
+                      calculo= eval(raiz)
                     }
                 } 
             }
@@ -46,12 +54,14 @@ export function calculadora(value) {
                     calculoSCT= SCT(valueS, calculo)
                 } 
             }
-            textoMostrado.textContent = calculo
+            textoMostrado[0].textContent = tipo
+            textoMostrado[1].textContent = calculo
         }
     } else {
         calculo = '0'
         tipo = 'decimal'
-        textoMostrado.textContent = calculo
+        textoMostrado[0].textContent = tipo
+        textoMostrado[1].textContent = calculo
     }
 }
 
@@ -122,39 +132,41 @@ function comprobarUltimo(calculo, valor) {
         return ''
     } else if ((valor == '*' || valor == '/') && (calculo[calculo.length - 1] == '*' || calculo[calculo.length - 1] == '/' )) {
         return ''
+    } else if ((valor == 'Cos' || valor == 'Cos' || valor == 'Cos') && (calculo[calculo.length - 1] == 's' || calculo[calculo.length - 1] == 'n')){
+      return ''
     } else {
         return valor
     }
 }
 
-function convertirNumeros(value, calculo) {
+function convertirNumeros(value, calculoDec, calculo) {
     if ((tipo === 'decimal' && value === 'dec') || (tipo === 'hex' && value === 'hex') || (tipo === 'oct' && value === 'oct') || (tipo === 'bin' && value === 'bin')) {
-        return calculo;
+        return calculoDec;
     }
-    if (tipo === 'decimal' && value === 'bin' && /^[0-9]+$/.test(calculo)) {
-      return decToBin(calculo);
-    } else if (tipo === 'decimal' && value === 'hex' && /^[0-9]+$/.test(calculo)) {
-      return decToHex(calculo);
-    } else if (tipo === 'decimal' && value === 'oct' && /^[0-9]+$/.test(calculo)) {
-      return decToOct(calculo);
-    } else if (tipo === 'bin' && value === 'dec' && /^[01]+$/.test(calculo)) {
-      return binToDec(calculo);
-    } else if (tipo === 'bin' && value === 'hex' && /^[01]+$/.test(calculo)) {
-      return binToHex(calculo);
-    } else if (tipo === 'bin' && value === 'oct' && /^[01]+$/.test(calculo)) {
-      return binToOct(calculo);
+    if (tipo === 'decimal' && value === 'bin' && /^[0-9]+$/.test(calculoDec)) {
+      return decToBin(calculoDec);
+    } else if (tipo === 'decimal' && value === 'hex' && /^[0-9]+$/.test(calculoDec)) {
+      return decToHex(calculoDec);
+    } else if (tipo === 'decimal' && value === 'oct' && /^[0-9]+$/.test(calculoDec)) {
+      return decToOct(calculoDec);
+    } else if (tipo === 'bin' && value === 'dec' && /^[01]+$/.test(calculoDec)) {
+      return binToDec(calculoDec);
+    } else if (tipo === 'bin' && value === 'hex' && /^[01]+$/.test(calculoDec)) {
+      return binToHex(calculoDec);
+    } else if (tipo === 'bin' && value === 'oct' && /^[01]+$/.test(calculoDec)) {
+      return binToOct(calculoDec);
     } else if (tipo === 'hex' && value === 'dec' && /^[0-9A-Fa-f]+$/.test(calculo)) {
       return hexToDec(calculo);
     } else if (tipo === 'hex' && value === 'bin' && /^[0-9A-Fa-f]+$/.test(calculo)) {
       return hexToBin(calculo);
     } else if (tipo === 'hex' && value === 'oct' && /^[0-9A-Fa-f]+$/.test(calculo)) {
       return hexToOct(calculo);
-    } else if (tipo === 'oct' && value === 'dec' && /^[0-7]+$/.test(calculo)) {
-      return octToDec(calculo);
-    } else if (tipo === 'oct' && value === 'bin' && /^[0-7]+$/.test(calculo)) {
-      return octToBin(calculo);
-    } else if (tipo === 'oct' && value === 'hex' && /^[0-7]+$/.test(calculo)) {
-      return octToHex(calculo);
+    } else if (tipo === 'oct' && value === 'dec' && /^[0-7]+$/.test(calculoDec)) {
+      return octToDec(calculoDec);
+    } else if (tipo === 'oct' && value === 'bin' && /^[0-7]+$/.test(calculoDec)) {
+      return octToBin(calculoDec);
+    } else if (tipo === 'oct' && value === 'hex' && /^[0-7]+$/.test(calculoDec)) {
+      return octToHex(calculoDec);
     } else {
       return 'SyntaxError';
     }
@@ -168,7 +180,7 @@ function convertirNumeros(value, calculo) {
   
   function decToHex(decimal) {
     tipo = 'hex'
-    return decimal.toString(16).toUpperCase();
+    return decimal.toString(16).toLowerCase();
   }
   
   function decToOct(decimal) {
@@ -183,7 +195,7 @@ function convertirNumeros(value, calculo) {
   
   function binToHex(binario) {
     tipo = 'hex'
-    return parseInt(binario, 2).toString(16).toUpperCase();
+    return parseInt(binario, 2).toString(16).toLowerCase();
   }
   
   function binToOct(binario) {
@@ -218,6 +230,6 @@ function convertirNumeros(value, calculo) {
   
   function octToHex(octal) {
     tipo = 'hex'
-    return parseInt(octal, 8).toString(16).toUpperCase();
+    return parseInt(octal, 8).toString(16).toLowerCase();
   }
   
