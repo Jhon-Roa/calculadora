@@ -2,7 +2,7 @@ import { buttonDetector } from "./buttons.js";
 
 const textoMostrado = document.querySelectorAll('p')
 let calculo = '0'
-let calculoSCT = ''
+let calculoSCT = 'p'
 let tipo = 'decimal'
 
 buttonDetector(calculadora)
@@ -10,6 +10,7 @@ buttonDetector(calculadora)
 export function calculadora(value) {
     let valueS = String(value)
     valueS = comprobarUltimo(calculo, valueS)
+    console.log(calculo)
     if (valueS != 'c') {
         if ((value === 'bin' || value === 'oct' || value === 'hex' || value === 'dec')) {
             let calculoDec = Number(calculo)
@@ -132,8 +133,6 @@ function comprobarUltimo(calculo, valor) {
         return ''
     } else if ((valor == '*' || valor == '/') && (calculo[calculo.length - 1] == '*' || calculo[calculo.length - 1] == '/' )) {
         return ''
-    } else if ((valor == 'Cos' || valor == 'Cos' || valor == 'Cos') && (calculo[calculo.length - 1] == 's' || calculo[calculo.length - 1] == 'n')){
-      return ''
     } else {
         return valor
     }
