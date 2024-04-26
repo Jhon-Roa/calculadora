@@ -10,6 +10,9 @@ buttonDetector(calculadora)
 export function calculadora(value) {
     let valueS = String(value)
     console.log(calculo[calculo.length-2])
+    if (calculo[0] === '0' && (valueS == '/' || valueS == '*') && calculo.length == 1) {
+      valueS = '0'
+    }
     if (valueS === '(') {
       valueS = parentesis(calculo)
     }
@@ -22,7 +25,7 @@ export function calculadora(value) {
             textoMostrado[0].textContent = tipo
             textoMostrado[1].textContent = calculo
         }else if (value != undefined) {
-            if (value === '+' || value === '-' || value === '*' || value === '/' || value === 'Sen' || value === 'Cos' || value === 'Tan' || value === '=' || value === '**') {
+            if (value === '+' || value === '-' || value === '*' || value === '/' || value === 'Sen' || value === 'Cos' || value === 'Tan' || value === '=' || value === '**' || value === '√') {
                 if (calculo.includes('+') || calculo.includes('*') || calculo.includes('-') || calculo.includes('/') || calculo.includes('Sen') || calculo.includes('Cos') || calculo.includes('Tan') || calculo.includes('√') || calculo.includes('**')){
                     if ( !calculo.includes('Sen') && !calculo.includes('Cos') && !calculo.includes('Tan') && !calculo.includes('√')) {
                         try {
