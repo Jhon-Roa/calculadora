@@ -10,7 +10,7 @@ buttonDetector(calculadora)
 export function calculadora(value) {
     let valueS = String(value)
     console.log(calculo[calculo.length-2])
-    if (calculo[0] === '0' && (valueS == '/' || valueS == '*') && calculo.length == 1) {
+    if (calculo[0] === '0' && (valueS == '/' || valueS == '*' || valueS == '**' || valueS == '√') && calculo.length == 1) {
       valueS = '0'
     }
     if (valueS === '(') {
@@ -161,6 +161,7 @@ function comprobarUltimo(calculo, valor) {
 }
 
 function convertirNumeros(value, calculoDec, calculo) {
+  
     if ((tipo === 'decimal' && value === 'dec') || (tipo === 'hex' && value === 'hex') || (tipo === 'oct' && value === 'oct') || (tipo === 'bin' && value === 'bin')) {
         return calculo;
     }
