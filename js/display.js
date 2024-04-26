@@ -9,6 +9,10 @@ buttonDetector(calculadora)
 
 export function calculadora(value) {
     let valueS = String(value)
+    console.log(calculo[calculo.length-2])
+    if (valueS === '(') {
+      valueS = parentesis(calculo)
+    }
     valueS = comprobarUltimo(calculo, valueS)
     console.log(calculo)
     if (valueS != 'c') {
@@ -125,13 +129,22 @@ function sqrt(calculo) {
     let indice = calculo.indexOf('√')
     let numeroII = calculo.substring(indice+1)
     let numeroI = calculo.substring(0, indice)
-    if (calculo[0] != '√' && calculo[indice-1] != '+' && calculo[indice-1] != '-' && calculo[indice-1] != '*' && calculo[indice-1] != '/') {
+    if (calculo[0] != '√' && calculo[indice-1] != '+' && calculo[indice-1] != '-' && calculo[indice-1] != '*' && calculo[indice-1] != '/' && calculo[indice-1] != '**') {
         return numeroI.concat(`*Math.sqrt(${numeroII})`)
-    } else if (calculo[indice-1] == '+' || calculo[indice-1] == '-' || calculo[indice-1] == '*' || calculo[indice-1] == '/') {
+    } else if (calculo[indice-1] == '+' || calculo[indice-1] == '-' || calculo[indice-1] == '*' || calculo[indice-1] == '/' || calculo[indice-1] != '**') {
         return numeroI.concat(`Math.sqrt(${numeroII})`)
     } else {
         return `Math.sqrt(${numeroII})`
     }
+}
+
+function parentesis (calculo) {
+  if (((calculo[0] != '0' && calculo[calculo.length-2] == undefined) && calculo[calculo.length-1] != '+' && calculo[calculo.length-1] != '-' && calculo[calculo.length-1] != '*' && calculo[calculo.length-1] != '/' && calculo[calculo.length-1] != '**')) {
+    return '*('
+  } else {
+    return '('
+  }
+
 }
 
 function comprobarUltimo(calculo, valor) {
