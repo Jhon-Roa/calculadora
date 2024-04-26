@@ -2,7 +2,7 @@ import { buttonDetector } from "./buttons.js";
 
 const textoMostrado = document.querySelectorAll('p')
 let calculo = '0'
-let calculoSCT = 'p'
+let calculoSCT = ''
 let tipo = 'decimal'
 
 buttonDetector(calculadora)
@@ -14,9 +14,7 @@ export function calculadora(value) {
     if (valueS != 'c') {
         if ((value === 'bin' || value === 'oct' || value === 'hex' || value === 'dec')) {
             let calculoDec = Number(calculo)
-            console.log(calculo)
-            console.log(calculoDec)
-            calculo = convertirNumeros(value, calculoDec, calculo) 
+            calculo = convertirNumeros(value, calculoDec, calculo)
             textoMostrado[0].textContent = tipo
             textoMostrado[1].textContent = calculo
         }else if (value != undefined) {
@@ -32,9 +30,14 @@ export function calculadora(value) {
                     } else if ( calculo.includes('Sen') || calculo.includes('Cos') || calculo.includes('Tan')) {
                       console.log(calculoSCT)
                       try {
+                        let save = calculo
                         calculo = eval(calculoSCT)
+                        if (calculo == undefined) {
+                          calculo=save
+                        }
                       } catch (error) {
                         calculo = 'syntaxError'
+                        valueS = ''
                       }
                       calculo = String(calculo)
                     } else if (calculo.includes('√')){
@@ -50,9 +53,11 @@ export function calculadora(value) {
                 }
             } else if (value != '=') {
                 calculo += valueS
-                console.log(valueS)
+                console.log(calculo)
                 if (calculo.includes('Sen') || calculo.includes('Tan') || calculo.includes('Cos') ) {
-                    calculoSCT= SCT(valueS, calculo)
+                    calculoSCT= SCT(calculo)
+                    console.log(calculo)
+                    console.log(calculoSCT)
                 } 
             }
             textoMostrado[0].textContent = tipo
@@ -60,13 +65,14 @@ export function calculadora(value) {
         }
     } else {
         calculo = '0'
+        calculoSCT = ''
         tipo = 'decimal'
         textoMostrado[0].textContent = tipo
         textoMostrado[1].textContent = calculo
     }
 }
 
-function SCT(valor, calculoF) {
+function SCT(calculoF) {
         if (calculoF.includes('Cos')) {
             let indiceD = calculoF.indexOf('s')
             let grados = calculoF.substring(indiceD+1)
@@ -129,9 +135,9 @@ function sqrt(calculo) {
 }
 
 function comprobarUltimo(calculo, valor) {
-    if ((valor == '*' || valor == '/' || valor == '+' || valor == '-') &&  (calculo[calculo.length - 1] == '+' || calculo[calculo.length - 1] == '-' )){
+    if ((valor == '*' || valor == '/' || valor == '+' || valor == '-' || valor == '**' || valor == '√') &&  (calculo[calculo.length - 1] == '+' || calculo[calculo.length - 1] == '-' )){
         return ''
-    } else if ((valor == '*' || valor == '/') && (calculo[calculo.length - 1] == '*' || calculo[calculo.length - 1] == '/' )) {
+    } else if ((valor == '*' || valor == '/' || valor == '**' || valor == '√' || valor == 'Cos' || valor == 'Sen' || valor == 'Tan') && (calculo[calculo.length - 1] == '*' || calculo[calculo.length - 1] == '/' || calculo[calculo.length - 1] == '**' || calculo[calculo.length - 1] == '√' || calculo[calculo.length - 1] == 'n' || calculo[calculo.length - 1] == 's')) {
         return ''
     } else {
         return valor
@@ -140,7 +146,7 @@ function comprobarUltimo(calculo, valor) {
 
 function convertirNumeros(value, calculoDec, calculo) {
     if ((tipo === 'decimal' && value === 'dec') || (tipo === 'hex' && value === 'hex') || (tipo === 'oct' && value === 'oct') || (tipo === 'bin' && value === 'bin')) {
-        return calculoDec;
+        return calculo;
     }
     if (tipo === 'decimal' && value === 'bin' && /^[0-9]+$/.test(calculoDec)) {
       return decToBin(calculoDec);
@@ -173,7 +179,6 @@ function convertirNumeros(value, calculoDec, calculo) {
   
   function decToBin(decimal) {
     tipo = 'bin'
-    console.log(tipo)
     return (decimal >>> 0).toString(2);
   }
   
@@ -188,7 +193,7 @@ function convertirNumeros(value, calculoDec, calculo) {
   }
   
   function binToDec(binario) {
-    tipo = 'decimal'
+    tipo = 'decimal' 
     return parseInt(binario, 2);
   }
   
