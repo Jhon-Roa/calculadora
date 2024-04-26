@@ -119,6 +119,7 @@ button:active {
     display: grid;
     grid-template-columns: repeat(3, 30%);
     gap: 1%;
+    column-gap: 3%;
     justify-content: center;
 
     padding: 4%;
@@ -146,6 +147,7 @@ button:active {
     grid-template-columns: repeat(2, 45.75%);
     justify-content: center;
     gap: 1%;
+    column-gap: 5%;
 
     padding: 6.4%;
     margin: 1.6%;
@@ -161,6 +163,7 @@ button:active {
     aspect-ratio: 1/1;
 
     font-size: 2vw;
+    column-gap: 3%;
 
     background-color: #888;
     box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.5);
